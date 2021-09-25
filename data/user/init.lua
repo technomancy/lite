@@ -5,6 +5,8 @@ local keymap = require "core.keymap"
 local config = require "core.config"
 local style = require "core.style"
 
+require("plugins.fennel").dofile("data/user/init.fnl")
+
 -- light theme:
 -- require "user.colors.summer"
 
