@@ -1,6 +1,10 @@
 (local command (require :core.command))
 (local keymap (require :core.keymap))
 
+(local fennel (require :plugins.fennel))
+(table.insert (or package.loaders package.searchers) fennel.searcher)
+(local rep (require :data.user.rep))
+
 ;; mostly emacs bindings
 (keymap.add {:ctrl+pageup :root:switch-to-previous-tab
              :ctrl+pagedown :root:switch-to-next-tab
@@ -16,12 +20,14 @@
              "alt+shift+," :doc:move-to-start-of-doc
              "alt+shift+." :doc:move-to-end-of-doc
 
+             "ctrl+;" :user:rep
              :ctrl+/ :doc:undo
              :alt+w :doc:copy
              :ctrl+y :doc:paste
              "alt+;" :doc:toggle-line-comments
              })
 
-(command.add nil {:user:reinit #(fennel.dofile "data/user/init.fnl")})
+(command.add nil {:user:reinit #(fennel.dofile "data/user/init.fnl")
+                  :user:rep #(rep.rep)})
 
 (require :user.colors.summer)
