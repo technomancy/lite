@@ -67,9 +67,8 @@
       (lua "return 1, 1"))
     (when (and (: (. ___doc-__.lines (- line 1)) :find "^%s*$")
                (not (: (. ___doc-__.lines line) :find "^%s*$")))
-      (let [___antifnl_rtn_1___ line
-            ___antifnl_rtn_2___ (: (. ___doc-__.lines line) :find "%S")]
-        (lua "return ___antifnl_rtn_1___, ___antifnl_rtn_2___")))))
+      (lua :break)))
+  (values line (: (. ___doc-__.lines line) :find "%S")))
 
 (fn translate.next_block_end [___doc-__ line col]
   (while true

@@ -147,16 +147,15 @@
 
 (fn core.load_project_module []
   (let [filename :.lite_project.lua]
-    (when (system.get_file_info filename)
-      (let [___antifnl_rtn_1___ (core.try (fn []
-                                            (let [(___fn-__ err) (loadfile filename)]
-                                              (when (not ___fn-__)
-                                                (error (.. "Error when loading project module:
+    (if (system.get_file_info filename)
+        (core.try (fn []
+                    (let [(___fn-__ err) (loadfile filename)]
+                      (when (not ___fn-__)
+                        (error (.. "Error when loading project module:
 \t" err)))
-                                              (___fn-__)
-                                              (core.log_quiet "Loaded project module"))))]
-        (lua "return ___antifnl_rtn_1___")))
-    true))
+                      (___fn-__)
+                      (core.log_quiet "Loaded project module"))))
+        true)))
 
 (fn core.reload_module [name]
   (let [old (. package.loaded name)]

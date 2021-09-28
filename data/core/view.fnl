@@ -18,14 +18,13 @@
   (set self.scrollable false))
 
 (fn View.move_towards [self t k dest rate]
-  (when (not= (type t) :table)
-    (let [___antifnl_rtn_1___ (self:move_towards self t k dest rate)]
-      (lua "return ___antifnl_rtn_1___")))
-  (local val (. t k))
-  (if (< (math.abs (- val dest)) 0.5) (tset t k dest)
-      (tset t k (common.lerp val dest (or rate 0.5))))
-  (when (not= val dest)
-    (set core.redraw true)))
+  (if (not= (type t) :table)
+      (self:move_towards self t k dest rate)
+      (let [val (. t k)]
+        (if (< (math.abs (- val dest)) 0.5) (tset t k dest)
+            (tset t k (common.lerp val dest (or rate 0.5))))
+        (when (not= val dest)
+          (set core.redraw true)))))
 
 (fn View.try_close [self do-close]
   (do-close))

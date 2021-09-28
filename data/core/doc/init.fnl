@@ -108,10 +108,9 @@
 
 (fn Doc.get_selection [self sort]
   (let [(a b) (values self.selection.a self.selection.b)]
-    (when sort
-      (let [___antifnl_rtn_1___ (sort-positions a.line a.col b.line b.col)]
-        (lua "return ___antifnl_rtn_1___")))
-    (values a.line a.col b.line b.col)))
+    (if sort
+        (sort-positions a.line a.col b.line b.col)
+        (values a.line a.col b.line b.col))))
 
 (fn Doc.has_selection [self]
   (let [(a b) (values self.selection.a self.selection.b)]
@@ -153,14 +152,13 @@
   (set-forcibly! (line1 col1) (self:sanitize_position line1 col1))
   (set-forcibly! (line2 col2) (self:sanitize_position line2 col2))
   (set-forcibly! (line1 col1 line2 col2) (sort-positions line1 col1 line2 col2))
-  (when (= line1 line2)
-    (let [___antifnl_rtn_1___ (: (. self.lines line1) :sub col1 (- col2 1))]
-      (lua "return ___antifnl_rtn_1___")))
-  (local lines {1 (: (. self.lines line1) :sub col1)})
-  (for [i (+ line1 1) (- line2 1) 1]
-    (table.insert lines (. self.lines i)))
-  (table.insert lines (: (. self.lines line2) :sub 1 (- col2 1)))
-  (table.concat lines))
+  (if (= line1 line2)
+      (: (. self.lines line1) :sub col1 (- col2 1))
+      (let [lines {1 (: (. self.lines line1) :sub col1)}]
+        (for [i (+ line1 1) (- line2 1) 1]
+          (table.insert lines (. self.lines i)))
+        (table.insert lines (: (. self.lines line2) :sub 1 (- col2 1)))
+        (table.concat lines))))
 
 (fn Doc.get_char [self line col]
   (set-forcibly! (line col) (self:sanitize_position line col))

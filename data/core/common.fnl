@@ -52,10 +52,9 @@
     res))
 
 (fn common.fuzzy_match [haystack needle]
-  (when (= (type haystack) :table)
-    (let [___antifnl_rtn_1___ (fuzzy-match-items haystack needle)]
-      (lua "return ___antifnl_rtn_1___")))
-  (system.fuzzy_match haystack needle))
+  (if (= (type haystack) :table)
+      (fuzzy-match-items haystack needle)
+      (system.fuzzy_match haystack needle)))
 
 (fn common.path_suggest [text]
   (let [(path name) (text:match "^(.-)([^/\\]*)$")
@@ -72,14 +71,13 @@
     res))
 
 (fn common.match_pattern [text pattern ...]
-  (when (= (type pattern) :string)
-    (let [___antifnl_rtn_1___ (text:find pattern ...)]
-      (lua "return ___antifnl_rtn_1___")))
-  (each [_ p (ipairs pattern)]
-    (local (s e) (common.match_pattern text p ...))
-    (when s
-      (lua "return s, e")))
-  false)
+  (if (= (type pattern) :string)
+      (text:find pattern ...)
+      (do (each [_ p (ipairs pattern)]
+            (local (s e) (common.match_pattern text p ...))
+            (when s
+              (lua "return s, e")))
+          false)))
 
 (fn common.draw_text [font color text align x y w h]
   (let [(tw th) (values (font:get_width text) (font:get_height text))]

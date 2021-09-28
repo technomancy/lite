@@ -30,7 +30,7 @@
                                                                                     text))))
               "core:open-user-module" (fn []
                                         (core.root_view:open_doc (core.open_doc (.. EXEDIR
-                                                                                    :/data/user/init.lua))))
+                                                                                    :/data/user/init.fnl))))
               "core:open-log" (fn []
                                 (local node (core.root_view:get_active_node))
                                 (node:add_view (Log-view)))
