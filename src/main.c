@@ -129,6 +129,7 @@ int main(int argc, char **argv) {
     "  table.insert(package.searchers, fennel.searcher)\n"
     "  fennel.path = EXEDIR .. '/data/?.fnl;' .. fennel.path\n"
     "  fennel.path = EXEDIR .. '/data/?/init.fnl;' .. fennel.path\n"
+    "  debug.traceback = fennel.traceback\n"
     "  core = require('core')\n"
     "  core.init()\n"
     "  core.run()\n"

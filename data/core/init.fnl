@@ -140,7 +140,7 @@
   (var no-errors true)
   (local files (system.list_dir (.. EXEDIR :/data/plugins)))
   (each [_ filename (ipairs files)]
-    (local modname (.. :plugins. (filename:gsub :.lua$ "")))
+    (local modname (.. :plugins. (filename:gsub :.fnl$ "")))
     (local ok (core.try require modname))
     (if ok (core.log_quiet "Loaded plugin %q" modname) (set no-errors false)))
   no-errors)
