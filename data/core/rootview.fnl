@@ -304,7 +304,10 @@
   (set self.mouse {:y 0 :x 0}))
 
 (fn Root-view.defer_draw [self ___fn-__ ...]
-  (table.insert self.deferred_draws 1 {2 ... :fn ___fn-__}))
+  ;; table.insert(self.deferred_draws, 1, { fn = fn, ... })
+  (let [args [...]]
+    (set args.fn ___fn-__)
+    (table.insert self.deferred_draws 1 args)))
 
 (fn Root-view.get_active_node [self]
   (self.root_node:get_node_for_view core.active_view))
